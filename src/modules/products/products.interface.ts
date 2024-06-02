@@ -1,5 +1,11 @@
-export type TProductVariant = { type: string; value: string };
-export type TProductInventory = { inventory: number; inStock: boolean };
+export type TProductVariant = {
+  type: string;
+  value: string;
+};
+export type TProductInventory = {
+  quantity: number;
+  inStock: boolean;
+};
 
 export type TProduct = {
   name: string;
