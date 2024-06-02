@@ -50,11 +50,11 @@ const getSingleProduct = async (req: Request, res: Response) => {
 
 const updatedProductInfo = async (req: Request, res: Response) => {
   try {
-    const { productID } = req.params;
-    const { products: productData } = req.body.products;
+    const { productId } = req.params;
+    const { products: productData } = req.body;
     const fetchedUpdatedProductInfo =
       await ProductServices.updateSingleProductInfoIntoDB(
-        productID,
+        productId,
         productData,
       );
 

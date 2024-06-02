@@ -17,14 +17,15 @@ const getSingleProductByIdFromDB = async (productId: string) => {
 };
 
 const updateSingleProductInfoIntoDB = async (
-  productID: string,
+  productId: string,
   product: TProduct,
 ) => {
-  const updatedProductIntoDB = await ProductModel.findByIdAndUpdate(
-    productID,
+  const previousProductDataIntoDB = await ProductModel.findByIdAndUpdate(
+    productId,
     product,
   );
-  return updatedProductIntoDB;
+  const updatedProductDataIntoDB = await ProductModel.findById(productId);
+  return updatedProductDataIntoDB;
 };
 
 export const ProductServices = {
