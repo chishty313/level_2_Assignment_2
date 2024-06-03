@@ -33,16 +33,13 @@ const updateSingleProductInfoIntoDB = async (
   productId: string,
   product: TProduct,
 ) => {
-  const previousProductDataIntoDB = await ProductModel.findByIdAndUpdate(
-    productId,
-    product,
-  );
+  await ProductModel.findByIdAndUpdate(productId, product);
   const updatedProductDataIntoDB = await ProductModel.findById(productId);
   return updatedProductDataIntoDB;
 };
 
 const deleteProductFromDB = async (productId: string) => {
-  const deletedProductInfo = await ProductModel.findByIdAndDelete(productId);
+  await ProductModel.findByIdAndDelete(productId);
   const deletedProductStatus = await ProductModel.findById(productId);
   return deletedProductStatus;
 };

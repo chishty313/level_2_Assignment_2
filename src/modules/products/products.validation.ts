@@ -25,3 +25,5 @@ const productSchema = z.object({
     .min(1, { message: 'Product variants information is required' }),
   inventory: inventorySchema,
 });
+
+export default productSchema;

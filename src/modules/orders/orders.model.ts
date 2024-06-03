@@ -1,8 +1,5 @@
 import { Schema, model } from 'mongoose';
 import { TOrder } from './orders.interface';
-import { ProductModel } from '../products/products.model';
-import { ProductServices } from '../products/products.service';
-import { TProduct } from '../products/products.interface';
 
 const orderSchema = new Schema<TOrder>({
   email: {

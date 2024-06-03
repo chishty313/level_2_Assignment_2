@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './products.service';
+import productSchema from './products.validation';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
     const { products: productData } = req.body;
+    productSchema.parse(productData);
     const responseOfProductCreationFromService =
       await ProductServices.createProductIntoDB(productData);
 
@@ -67,6 +69,7 @@ const updatedProductInfo = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const { products: productData } = req.body;
+    productSchema.parse(productData);
     const fetchedUpdatedProductInfo =
       await ProductServices.updateSingleProductInfoIntoDB(
         productId,
