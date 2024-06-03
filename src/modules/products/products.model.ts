@@ -35,27 +35,22 @@ const productSchema = new Schema<TProduct>({
   name: {
     type: String,
     required: [true, 'Product name is required'],
-    default: '',
   },
   description: {
     type: String,
     required: [true, 'Product description is required'],
-    default: '',
   },
   price: {
     type: Number,
     required: [true, 'Product price is required'],
-    default: 0,
   },
   category: {
     type: String,
     required: [true, 'Product category is required'],
-    default: '',
   },
   tags: {
     type: [String],
     required: [true, 'Product tags are required'],
-    default: [],
   },
   variants: {
     type: [variantSchema],
