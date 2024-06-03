@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import { OrderServices } from './orders.service';
 import { ProductModel } from '../products/products.model';
+import orderSchema from './orders.validation';
 
 const createOrder = async (req: Request, res: Response) => {
   try {
     const { order } = req.body;
+    orderSchema.parse(order);
     const { productId, quantity } = order;
     const product = await ProductModel.findById(productId);
     if (!product) {
