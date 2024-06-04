@@ -5,9 +5,10 @@ import productSchema from './products.validation';
 const createProduct = async (req: Request, res: Response) => {
   try {
     const { products: productData } = req.body;
-    productSchema.parse(productData);
+    const zodParsedProductData = productSchema.parse(productData);
+    console.log(zodParsedProductData);
     const responseOfProductCreationFromService =
-      await ProductServices.createProductIntoDB(productData);
+      await ProductServices.createProductIntoDB(zodParsedProductData);
 
     res.status(200).json({
       success: true,
@@ -69,11 +70,11 @@ const updatedProductInfo = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const { products: productData } = req.body;
-    productSchema.parse(productData);
+    const zodParsedUpdatedProductData = productSchema.parse(productData);
     const fetchedUpdatedProductInfo =
       await ProductServices.updateSingleProductInfoIntoDB(
         productId,
-        productData,
+        zodParsedUpdatedProductData,
       );
 
     res.status(200).json({
