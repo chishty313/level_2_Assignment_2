@@ -43,19 +43,24 @@ const getAllOrders = async (req: Request, res: Response) => {
   try {
     const { email } = req.query;
     let allFetchedData;
+
     if (email) {
-      allFetchedData = await OrderServices.filteredOrdersInfo(email as string);
-      if (allFetchedData) {
+      const verifiedEmail = await OrderModel.findOne({ email });
+      if (!verifiedEmail) {
         return res.status(400).json({
           success: false,
           message: 'User not found',
         });
+      } else {
+        allFetchedData = await OrderServices.filteredOrdersInfo(
+          email as string,
+        );
+        return res.status(200).json({
+          success: true,
+          message: 'Orders fetched successfully for user email!',
+          data: allFetchedData,
+        });
       }
-      res.status(200).json({
-        success: true,
-        message: 'Orders fetched successfully for user email!',
-        data: allFetchedData,
-      });
     } else {
       allFetchedData = await OrderServices.getAllOrdersFromDB();
       res.status(200).json({
