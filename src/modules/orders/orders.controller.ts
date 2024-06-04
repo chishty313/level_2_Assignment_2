@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { OrderServices } from './orders.service';
 import { ProductModel } from '../products/products.model';
 import orderSchema from './orders.validation';
+import { OrderModel } from './orders.model';
 
 const createOrder = async (req: Request, res: Response) => {
   try {
@@ -44,6 +45,12 @@ const getAllOrders = async (req: Request, res: Response) => {
     let allFetchedData;
     if (email) {
       allFetchedData = await OrderServices.filteredOrdersInfo(email as string);
+      if (allFetchedData) {
+        return res.status(400).json({
+          success: false,
+          message: 'User not found',
+        });
+      }
       res.status(200).json({
         success: true,
         message: 'Orders fetched successfully for user email!',
