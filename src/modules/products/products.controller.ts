@@ -6,7 +6,6 @@ const createProduct = async (req: Request, res: Response) => {
   try {
     const { products: productData } = req.body;
     const zodParsedProductData = productSchema.parse(productData);
-    console.log(zodParsedProductData);
     const responseOfProductCreationFromService =
       await ProductServices.createProductIntoDB(zodParsedProductData);
 
@@ -16,7 +15,10 @@ const createProduct = async (req: Request, res: Response) => {
       data: responseOfProductCreationFromService,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error,
+    });
   }
 };
 
@@ -45,13 +47,15 @@ const getAllProducts = async (req: Request, res: Response) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error,
+    });
   }
 };
 
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
-    // console.log(req);
     const { productId } = req.params;
     const fetchedStudentsDataById =
       await ProductServices.getSingleProductByIdFromDB(productId);
@@ -62,7 +66,10 @@ const getSingleProduct = async (req: Request, res: Response) => {
       data: fetchedStudentsDataById,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error,
+    });
   }
 };
 
@@ -83,7 +90,10 @@ const updatedProductInfo = async (req: Request, res: Response) => {
       data: fetchedUpdatedProductInfo,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error,
+    });
   }
 };
 
@@ -99,7 +109,10 @@ const deleteProduct = async (req: Request, res: Response) => {
       data: fetchedDataFromDeletedProduct,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error,
+    });
   }
 };
 
