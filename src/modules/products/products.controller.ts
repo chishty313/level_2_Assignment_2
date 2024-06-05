@@ -4,6 +4,7 @@ import productSchema from './products.validation';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
+    console.log(req.body);
     const productData = req.body;
     console.log(productData);
     const zodParsedProductData = productSchema.parse(productData);
@@ -78,7 +79,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
 const updatedProductInfo = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    const { products: productData } = req.body;
+    const productData = req.body;
     const zodParsedUpdatedProductData = productSchema.parse(productData);
     const fetchedUpdatedProductInfo =
       await ProductServices.updateSingleProductInfoIntoDB(
