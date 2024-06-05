@@ -16,9 +16,10 @@ exports.OrderControllers = void 0;
 const orders_service_1 = require("./orders.service");
 const products_model_1 = require("../products/products.model");
 const orders_validation_1 = __importDefault(require("./orders.validation"));
+const orders_model_1 = require("./orders.model");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { order } = req.body;
+        const order = req.body;
         const zodParsedOrderData = orders_validation_1.default.parse(order);
         const { productId, quantity } = zodParsedOrderData;
         const product = yield products_model_1.ProductModel.findById(productId);
@@ -45,7 +46,10 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
-        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: error,
+        });
     }
 });
 const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -53,12 +57,21 @@ const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const { email } = req.query;
         let allFetchedData;
         if (email) {
-            allFetchedData = yield orders_service_1.OrderServices.filteredOrdersInfo(email);
-            res.status(200).json({
-                success: true,
-                message: 'Orders fetched successfully for user email!',
-                data: allFetchedData,
-            });
+            const verifiedEmail = yield orders_model_1.OrderModel.findOne({ email });
+            if (!verifiedEmail) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'User not found',
+                });
+            }
+            else {
+                allFetchedData = yield orders_service_1.OrderServices.filteredOrdersInfo(email);
+                return res.status(200).json({
+                    success: true,
+                    message: 'Orders fetched successfully for user email!',
+                    data: allFetchedData,
+                });
+            }
         }
         else {
             allFetchedData = yield orders_service_1.OrderServices.getAllOrdersFromDB();
@@ -70,7 +83,10 @@ const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         }
     }
     catch (error) {
-        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: error,
+        });
     }
 });
 exports.OrderControllers = {

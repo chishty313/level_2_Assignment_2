@@ -17,10 +17,13 @@ const products_service_1 = require("./products.service");
 const products_validation_1 = __importDefault(require("./products.validation"));
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { products: productData } = req.body;
+        console.log(req.body);
+        const productData = req.body;
+        console.log(productData);
         const zodParsedProductData = products_validation_1.default.parse(productData);
         console.log(zodParsedProductData);
         const responseOfProductCreationFromService = yield products_service_1.ProductServices.createProductIntoDB(zodParsedProductData);
+        console.log(responseOfProductCreationFromService);
         res.status(200).json({
             success: true,
             message: 'Product created successfully!',
@@ -28,7 +31,10 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: error,
+        });
     }
 });
 const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -54,12 +60,14 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
     }
     catch (error) {
-        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: error,
+        });
     }
 });
 const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // console.log(req);
         const { productId } = req.params;
         const fetchedStudentsDataById = yield products_service_1.ProductServices.getSingleProductByIdFromDB(productId);
         res.status(200).json({
@@ -69,13 +77,16 @@ const getSingleProduct = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     catch (error) {
-        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: error,
+        });
     }
 });
 const updatedProductInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { productId } = req.params;
-        const { products: productData } = req.body;
+        const productData = req.body;
         const zodParsedUpdatedProductData = products_validation_1.default.parse(productData);
         const fetchedUpdatedProductInfo = yield products_service_1.ProductServices.updateSingleProductInfoIntoDB(productId, zodParsedUpdatedProductData);
         res.status(200).json({
@@ -85,7 +96,10 @@ const updatedProductInfo = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
     catch (error) {
-        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: error,
+        });
     }
 });
 const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -99,7 +113,10 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: error,
+        });
     }
 });
 exports.ProductControllers = {
