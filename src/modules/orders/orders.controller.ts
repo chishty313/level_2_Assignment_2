@@ -6,7 +6,7 @@ import { OrderModel } from './orders.model';
 
 const createOrder = async (req: Request, res: Response) => {
   try {
-    const { order } = req.body;
+    const order = req.body;
     const zodParsedOrderData = orderSchema.parse(order);
     const { productId, quantity } = zodParsedOrderData;
     const product = await ProductModel.findById(productId);

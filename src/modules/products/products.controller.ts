@@ -4,7 +4,7 @@ import productSchema from './products.validation';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { products: productData } = req.body;
+    const productData = req.body;
     const zodParsedProductData = productSchema.parse(productData);
     const responseOfProductCreationFromService =
       await ProductServices.createProductIntoDB(zodParsedProductData);
